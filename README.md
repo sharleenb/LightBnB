@@ -7,9 +7,10 @@ A simple multi-page Airbnb clone that uses a server-side Javascript to display t
 1. [Create](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) a new repository using this repository as a template.
 2. Clone your repository onto your local device.
 3. Install dependencies using the `npm install` command.
-3. Start the web server using the `npm run local` command. The app will be served at <http://localhost:3000>.
-4. Go to <http://localhost:3000> in your browser.
-5. Login, Sign Up, Search Listings, Access Reservations and Listings owned by the user
+3. Navigate to the LightBnB_WebApp-master directory.
+4. Start the web server using the `npm run local` command. The app will be served at <localhost:3000>.
+5. Go to <localhost:3000> in your browser.
+6. Login, Sign Up, Search Listings, Access Reservations and Listings owned by the user
 
 
 
