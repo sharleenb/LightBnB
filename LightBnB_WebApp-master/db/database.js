@@ -9,8 +9,6 @@ const pool = new Pool({
   database: 'lightbnb'
 });
 
-// pool.query(`SELECT title FROM properties LIMIT 10;`).then(response => {console.log(response)})
-
 /// Users
 
 /**
@@ -23,7 +21,6 @@ const getUserWithEmail = function (email) {
   return pool.query(`SELECT * FROM users WHERE email=$1`, [email])
     .then((result) => {
       if (result.rows.length > 0) {
-        console.log(result.rows);
         return result.rows[0];
       } else {
         console.log('Null');
@@ -69,7 +66,7 @@ const addUser = function (user) {
     })
     .catch((err) => {
       console.log(err.message);
-    })
+    });
 };
 
 /// Reservations
@@ -131,7 +128,7 @@ const getAllProperties = function (options, limit = 10) {
     queryString += `AND cost_per_night < $${queryParams.length} `;
   }
 
-  queryString += `GROUP BY properties.id `
+  queryString += `GROUP BY properties.id `;
 
   if (options.minimum_rating) {
     queryParams.push(`${options.minimum_rating}`);
@@ -160,8 +157,6 @@ const getAllProperties = function (options, limit = 10) {
  */
 const addProperty = function (property) {
   const propAdded = JSON.parse(JSON.stringify(property));
-  console.log(propAdded);
-
   return pool.query(`INSERT INTO properties (
     title, description, number_of_bedrooms, number_of_bathrooms, parking_spaces, cost_per_night, thumbnail_photo_url, cover_photo_url, street, country, city, province, post_code, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *` , [propAdded.title, propAdded.description, propAdded.number_of_bedrooms, propAdded.number_of_bathrooms, propAdded.parking_spaces, propAdded.cost_per_night, propAdded.thumbnail_photo_url, propAdded.cover_photo_url, propAdded.street, propAdded.country, propAdded.city, propAdded.province, propAdded.post_code, propAdded.owner_id])
     .then((result) => {
@@ -181,7 +176,3 @@ module.exports = {
   addProperty,
 };
 
-
-//questions
-
-//how to test the owner id case works
