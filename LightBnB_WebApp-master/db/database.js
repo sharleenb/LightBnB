@@ -40,7 +40,6 @@ const getUserWithId = function (id) {
   return pool.query(`SELECT * FROM users WHERE id=$1`, [id])
     .then((result) => {
       if (result.rows.length > 0) {
-        console.log(result.rows);
         return result.rows[0];
       } else {
         console.log('Null');
@@ -62,7 +61,7 @@ const addUser = function (user) {
   return pool.query(`INSERT INTO users (
     name, email, password) VALUES ($1, $2, $3) RETURNING *` , [userArray.name, userArray.email, userArray.password])
     .then((result) => {
-      console.log(result.rows);
+      return result.rows;
     })
     .catch((err) => {
       console.log(err.message);
@@ -153,14 +152,13 @@ const getAllProperties = function (options, limit = 10) {
 /**
  * Add a property to the database
  * @param {{}} property An object containing all of the property details.
- * @return {Promise<{}>} A promise to the property.
+ * @return {Promise<{}>} A promise to the sproperty.
  */
-const addProperty = function (property) {
-  const propAdded = JSON.parse(JSON.stringify(property));
+const addProperty = function (propAdded) {
   return pool.query(`INSERT INTO properties (
-    title, description, number_of_bedrooms, number_of_bathrooms, parking_spaces, cost_per_night, thumbnail_photo_url, cover_photo_url, street, country, city, province, post_code, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *` , [propAdded.title, propAdded.description, propAdded.number_of_bedrooms, propAdded.number_of_bathrooms, propAdded.parking_spaces, propAdded.cost_per_night, propAdded.thumbnail_photo_url, propAdded.cover_photo_url, propAdded.street, propAdded.country, propAdded.city, propAdded.province, propAdded.post_code, propAdded.owner_id])
+    title, description, number_of_bedrooms, number_of_bathrooms, parking_spaces, cost_per_night, thumbnail_photo_url, cover_photo_url, street, country, city, province, post_code, owner_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *` , [propAdded.title, propAdded.description, Number(propAdded.number_of_bedrooms), Number(propAdded.number_of_bathrooms), Number(propAdded.parking_spaces), Number(propAdded.cost_per_night), propAdded.thumbnail_photo_url, propAdded.cover_photo_url, propAdded.street, propAdded.country, propAdded.city, propAdded.province, propAdded.post_code, propAdded.owner_id])
     .then((result) => {
-      console.log(result.rows);
+      return result.rows; 
     })
     .catch((err) => {
       console.log(err.message);
